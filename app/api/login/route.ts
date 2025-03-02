@@ -53,11 +53,13 @@ export async function POST(req: Request) {
       maxAge: 7 * 24 * 24 * 60, // 7 Days...
     });
     return response;
-  } catch (error: any) {
-    console.log("error in logging-user route", error.message);
-    return NextResponse.json(
-      { error: `Internal server error ${error.message}` },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("error in logging-user route", error.message);
+      return NextResponse.json(
+        { error: `Internal server error ${error.message}` },
+        { status: 500 }
+      );
+    }
   }
 }

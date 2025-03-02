@@ -12,7 +12,6 @@ import Image from "next/image";
 const Navbar = () => {
   const router = useRouter();
   const clearUser = useAuthStore((state) => state.clearUser);
-  const user = useAuthStore((state) => state.user);
 
   async function handleLogout() {
     localStorage.removeItem("token");
@@ -20,8 +19,12 @@ const Navbar = () => {
     try {
       await LogoutUser();
       router.push("/login");
-    } catch (error: any) {
-      toast.error(error.message || "Oops..! Something went wrong");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Oops..! Something went wrong");
+      }
     }
   }
 

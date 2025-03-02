@@ -15,8 +15,10 @@ export async function MongoDBConnection() {
     await mongoose.connect(URI);
     isConnected = true;
     console.log("✅ MongoDB Connected Successfully!");
-  } catch (error: any) {
-    console.log("❌ MongoDB Connection Error:", error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("❌ MongoDB Connection Error:", error);
+    }
   }
 }
 

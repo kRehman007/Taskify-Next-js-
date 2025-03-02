@@ -49,9 +49,12 @@ const LoginPage = () => {
       localStorage.setItem("token", response?.data?.user?.token);
       router.push("/");
       toast.success("Successfully logged in");
-    } catch (error: any) {
-      console.error("Login failed:", error.response?.data);
-      toast.error(error.response?.data?.error || "Oops! Something went wrong.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Login failed:", (error as any)?.response?.data);
+      } else {
+        toast.error("Oops! Something went wrong.");
+      }
     }
   }
 

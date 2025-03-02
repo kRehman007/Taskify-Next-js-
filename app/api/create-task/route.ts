@@ -1,6 +1,4 @@
 import taskModel from "@/app/models/task-model";
-import { validateTokenForUser } from "@/lib/generateAndValidateTokenForUser";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -22,8 +20,10 @@ export async function POST(req: Request) {
       isCompleted: Boolean(false),
     });
     return NextResponse.json({ createdTask }, { status: 201 });
-  } catch (error: any) {
-    console.log("error in creating-task action", error.message);
-    return NextResponse.json({ error: error.message }, { status: 401 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("error in creating-task action", error.message);
+      return NextResponse.json({ error: error.message }, { status: 401 });
+    }
   }
 }

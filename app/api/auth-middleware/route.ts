@@ -15,8 +15,10 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "unAuthorized" }, { status: 401 });
     }
     return NextResponse.json({ user }, { status: 200 });
-  } catch (error: any) {
-    console.log("error in authenticating-user", error.message);
-    return NextResponse.json({ error: "unAuthorized" }, { status: 401 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("error in authenticating-user", error.message);
+      return NextResponse.json({ error: "unAuthorized" }, { status: 401 });
+    }
   }
 }

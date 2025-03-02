@@ -26,8 +26,10 @@ export async function POST(req: Request) {
       { message: "Task updated successfully", updatedTask }, // ✅ Return updated task
       { status: 200 }
     );
-  } catch (error: any) {
-    console.log("Error in updating task:", error.message);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("Error in updating task:", error.message);
+      return Response.json({ error: "Internal server error" }, { status: 500 });
+    }
   }
 }

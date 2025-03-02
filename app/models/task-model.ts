@@ -11,7 +11,7 @@ const TaskSchema = new mongoose.Schema<ITask>(
   {
     title: { type: String, required: true, trim: true },
     content: { type: String, required: true },
-    isCompleted: { type: Boolean, default: false, set: (v: any) => Boolean(v) },
+    isCompleted: { type: Boolean, default: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
   {

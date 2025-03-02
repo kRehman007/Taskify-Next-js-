@@ -13,11 +13,10 @@ import Loader, { PageLoader } from "@/components/Loader";
 import toast from "react-hot-toast";
 import { FormateDate } from "@/lib/utils";
 import Link from "next/link";
-import { Delete, DeleteIcon, Trash } from "lucide-react";
-import Image from "next/image";
+import { Trash } from "lucide-react";
+
 import { DeleteTask } from "../actions/deleteAction";
 import { useAuthStore } from "@/zustand/authStore";
-import CirculareProgressBar from "@/components/CirculareProgressBar";
 import { Button } from "@/components/ui/button";
 
 // Define types for our task data
@@ -44,7 +43,7 @@ export default function Home() {
             : task
         )
       );
-      const res = await AxiosInstance.post("/update-task", { id: taskId });
+      await AxiosInstance.post("/update-task", { id: taskId });
     } catch (error) {
       setTasks(
         tasks?.map((task: Task) =>
@@ -77,7 +76,7 @@ export default function Home() {
     };
 
     fetchTasks();
-  }, []);
+  }, [user?.id]);
 
   if (loading) {
     return <PageLoader />;
@@ -106,15 +105,17 @@ export default function Home() {
 
       {tasks?.length > 0 ? (
         <div className="grid sm:grid-cols-4 gap-4 m-2">
-          {tasks?.map((task: any) => (
+          {tasks?.map((task: Task) => (
             <Card
               key={task._id}
               className="transition-all duration-200 hover:-translate-y-0.5 px-3 py-6 relative
               h-[max-content]"
             >
               <CardHeader className="flex flex-col gap-2 p-0">
-                <CardTitle className="flex justify-between items-center p-0">
-                  <h3 className="text-lg font-semibold">{task.title}</h3>
+                <CardTitle className="flex justify-between gap-3 items-center p-0">
+                  <h3 className="text-lg font-semibold leading-tight">
+                    {task.title}
+                  </h3>
                   <div
                     className="flex gap-2 items-center cursor-pointer"
                     onClick={() => handleCompleteToggle(task._id)}

@@ -1,5 +1,5 @@
 "use client";
-import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CirculareProgressBar = ({ value }: { value: number }) => {
@@ -9,12 +9,6 @@ const CirculareProgressBar = ({ value }: { value: number }) => {
         value={value}
         maxValue={100}
         text={value.toString()}
-        // styles={buildStyles({
-        //   pathColor: `rgba(62, 152, 199, ${value / 100})`,
-        //   textColor: "#f88",
-        //   trailColor: "#d6d6d6",
-        //   backgroundColor: "#3e98c7",
-        // })}
       />
     </>
   );

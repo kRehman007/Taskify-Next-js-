@@ -1,10 +1,5 @@
 import taskModel from "@/app/models/task-model";
-import userModel from "@/app/models/user-model";
 import { MongoDBConnection } from "@/lib/db";
-import { validateTokenForUser } from "@/lib/generateAndValidateTokenForUser";
-import mongoose from "mongoose";
-
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -16,8 +11,10 @@ export async function GET(req: Request) {
       .sort({ createdAt: -1 }); // ✅ Sort by newest first
 
     return NextResponse.json({ allTasks }, { status: 200 });
-  } catch (error: any) {
-    console.log("error in getting-all-tasks", error.message);
-    return NextResponse.json({ error: "unAuthorized" }, { status: 401 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("error in getting-all-tasks", error.message);
+      return NextResponse.json({ error: "unAuthorized" }, { status: 401 });
+    }
   }
 }

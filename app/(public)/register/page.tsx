@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,6 @@ import { useAuthStore } from "@/zustand/authStore";
 import { useRouter } from "next/navigation";
 import AxiosInstance from "@/lib/AxiosInstance";
 import toast from "react-hot-toast";
-import { TriangleAlert } from "lucide-react";
 
 const formSchma = z.object({
   fullname: z
@@ -58,12 +57,12 @@ const Signuppage = () => {
       });
       localStorage.setItem("token", response?.data?.user?.token);
       router.push("/");
-    } catch (error: any) {
-      console.error("Signup failed:", error.response?.data);
-
-      toast.error(
-        error.response?.data?.error || "Ooops...! Something went wrong"
-      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Signup failed:", (error as any)?.response?.data);
+      } else {
+        toast.error("Ooops...! Something went wrong");
+      }
     }
   }
 

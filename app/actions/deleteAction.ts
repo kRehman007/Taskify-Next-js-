@@ -10,8 +10,10 @@ export async function DeleteTask(id: string) {
     }
 
     return { message: "Task deleted successfully", status: 200 }; // ✅ Return plain object
-  } catch (error: any) {
-    console.log("Error in deleting task:", error.message);
-    return { error: "Internal server error", status: 500 }; // ✅ Return plain object
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("Error in deleting task:", error.message);
+      return { error: "Internal server error", status: 500 };
+    }
   }
 }

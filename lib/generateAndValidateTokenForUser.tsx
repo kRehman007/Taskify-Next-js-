@@ -1,4 +1,3 @@
-import { NextResponse, NextRequest } from "next/server";
 import { User } from "./interface";
 import jwt from "jsonwebtoken";
 
@@ -16,7 +15,11 @@ export function validateTokenForUser(token: string) {
       throw new Error("Invalid or expired token");
     }
     return decoded;
-  } catch (error: any) {
-    throw new Error(error.message || "Authentication failed");
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message || "Authentication failed");
+    } else {
+      throw new Error("Authentication failed");
+    }
   }
 }

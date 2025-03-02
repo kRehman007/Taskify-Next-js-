@@ -3,10 +3,10 @@ import AxiosInstance from "@/lib/AxiosInstance";
 import { useAuthStore } from "@/zustand/authStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Loader, { PageLoader } from "./Loader";
+import { PageLoader } from "./Loader";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { setUser, user } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -18,13 +18,16 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
         setUser(res?.data?.user?.user);
         setLoading(false);
-      } catch (error) {
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
         router.push("/login");
       }
     }
 
     fetchUserDetails();
-  }, []);
+  }, [router, setUser]);
 
   if (loading) return <PageLoader />;
   return <div>{children}</div>;

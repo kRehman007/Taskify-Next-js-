@@ -48,8 +48,12 @@ const CreateTaskPage = () => {
       });
       router.push("/");
       toast.success("Task created successfully!");
-    } catch (error: any) {
-      toast.error(error.message || "Oops..! Something went wrong.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Oops..! Something went wrong.");
+      }
     }
   }
 
