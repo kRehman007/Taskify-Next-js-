@@ -142,7 +142,7 @@ export default function Home() {
             >
               <CardHeader className="flex flex-col gap-2 p-0">
                 <CardTitle className="flex justify-between gap-3 items-center p-0">
-                  <h3 className="text-lg font-semibold leading-tight capitalize">
+                  <h3 className="text-lg font-bold leading-tight capitalize">
                     {task.title}
                   </h3>
                   <div

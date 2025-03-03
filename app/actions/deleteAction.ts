@@ -3,8 +3,7 @@ import taskModel from "../models/task-model";
 
 export async function DeleteTask(id: number) {
   try {
-    // const deletedTask = await taskModel.findOneAndDelete({ _id: id });
-    let deletedTask = null;
+    const deletedTask = await taskModel.findOneAndDelete({ _id: id });
     if (!deletedTask) {
       return { error: "Please try again later", status: 401 }; // Return as an object
     }
