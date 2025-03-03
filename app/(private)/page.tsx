@@ -94,7 +94,7 @@ export default function Home() {
     return <PageLoader />;
   }
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       {/* Hero Section */}
       {tasks?.length === 0 && (
         <motion.header

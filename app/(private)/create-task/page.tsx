@@ -67,7 +67,6 @@ const CreateTaskPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        exit={{ opacity: 0, y: -20 }}
         className="flex max-w-lg flex-col p-5 mt-5  sm:mt-10 justify-center sm:mx-auto items-center bg-white m-2 rounded-sm"
       >
         <div className="text-center mb-6">
