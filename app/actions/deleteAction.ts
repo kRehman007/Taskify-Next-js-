@@ -1,7 +1,7 @@
 "use server";
 import taskModel from "../models/task-model";
 
-export async function DeleteTask(id: string) {
+export async function DeleteTask(id: number) {
   try {
     const deletedTask = await taskModel.findOneAndDelete({ _id: id });
 

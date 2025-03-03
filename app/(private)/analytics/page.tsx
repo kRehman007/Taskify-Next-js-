@@ -5,9 +5,10 @@ import React, { useEffect, useState } from "react";
 import { Task } from "../page";
 import { useAuthStore } from "@/zustand/authStore";
 import { PageLoader } from "@/components/Loader";
-import CircularProgressBar from "@/components/CirculareProgressBar";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { motion } from "framer-motion";
 
 const TaskAnalyticsDashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -42,67 +43,82 @@ const TaskAnalyticsDashboard = () => {
     return <PageLoader />;
   }
 
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter((task) => task.isCompleted).length;
+  const pendingTasks = totalTasks - completedTasks;
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto">
       {/* Hero Section */}
-      <header className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-lg overflow-hidden mb-8">
-        <div className="container mx-auto py-8 px-6">
-          <h1 className="text-4xl font-bold text-white leading-tight mb-4">
-            Task Analytics Dashboard 📊
-          </h1>
-          <p className="text-gray-200 max-w-2xl">
-            Gain insights into your productivity with real-time task statistics.
-            Track your completed, pending, and total tasks efficiently.
-          </p>
-        </div>
-      </header>
+      <motion.header
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-gradient-to-r from-[#6A5ACD] to-[#483D8B] rounded-xl shadow-md overflow-hidden mb-8 m-1 text-center  p-8"
+      >
+        <h1 className="text-3xl  font-bold text-white">
+          Task Analytics Dashboard{" "}
+          <span className="text-2xl sm:text-3xl">📊</span>
+        </h1>
+        <p className="text-gray-200 mt-2 text-lg">
+          Gain insights into your task progress with detailed analytics.
+        </p>
+      </motion.header>
 
       {/* Statistics Cards */}
-      {tasks?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {/* Total Tasks Card */}
-          <div className="bg-yellow-100 dark:bg-yellow-900 transition-colors duration-300 hover:-translate-y-1 transform rounded-xl shadow-lg overflow-hidden">
-            <div className="p-6">
-              <span className="text-xl font-semibold text-gray-700 dark:text-gray-300 flex items-center justify-between">
-                Total Tasks 📋
-                <span className="text-2xl font-bold">{tasks.length}</span>
-              </span>
-              <CircularProgressBar value={tasks.length} />
-            </div>
+      {totalTasks > 0 ? (
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  px-6 sm:px-8 lg:px-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          {/* Total Tasks */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Total Tasks 📋
+            </h3>
+            <span className="text-2xl font-bold text-blue-500">
+              {totalTasks}
+            </span>
+            <Progress value={100} className="mt-3" />
           </div>
 
-          {/* Completed Tasks Card */}
-          <div className="bg-green-100 dark:bg-green-900 transition-colors duration-300 hover:-translate-y-1 transform rounded-xl shadow-lg overflow-hidden">
-            <div className="p-6">
-              <span className="text-xl font-semibold text-gray-700 dark:text-gray-300 flex items-center justify-between">
-                Completed Tasks ✅
-                <span className="text-2xl font-bold">
-                  {tasks.filter((task) => task.isCompleted).length}
-                </span>
-              </span>
-              <CircularProgressBar
-                value={tasks.filter((task) => task.isCompleted).length}
-              />
-            </div>
+          {/* Completed Tasks */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Completed Tasks ✅
+            </h3>
+            <span className="text-2xl font-bold text-green-500">
+              {completedTasks}
+            </span>
+            <Progress
+              value={(completedTasks / totalTasks) * 100}
+              className="mt-3"
+            />
           </div>
 
-          {/* Pending Tasks Card */}
-          <div className="bg-blue-100 dark:bg-blue-900 transition-colors duration-300 hover:-translate-y-1 transform rounded-xl shadow-lg overflow-hidden">
-            <div className="p-6">
-              <span className="text-xl font-semibold text-gray-700 dark:text-gray-300 flex items-center justify-between">
-                Pending Tasks ⏳
-                <span className="text-2xl font-bold">
-                  {tasks.filter((task) => !task.isCompleted).length}
-                </span>
-              </span>
-              <CircularProgressBar
-                value={tasks.filter((task) => !task.isCompleted).length}
-              />
-            </div>
+          {/* Pending Tasks */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Pending Tasks ⏳
+            </h3>
+            <span className="text-2xl font-bold text-yellow-500">
+              {pendingTasks}
+            </span>
+            <Progress
+              value={(pendingTasks / totalTasks) * 100}
+              className="mt-3"
+            />
           </div>
-        </div>
+        </motion.div>
       ) : (
-        <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-6">
+        <motion.div
+          className="flex flex-col items-center justify-center  text-center p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
             No Tasks Available 📝
           </h2>
@@ -112,12 +128,12 @@ const TaskAnalyticsDashboard = () => {
           <Link href="/create-task">
             <Button
               size="lg"
-              className="bg-green-600 hover:bg-green-700 transition-colors duration-300 text-white px-8 py-6 shadow-lg"
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 shadow-lg transition-all"
             >
               Create Task
             </Button>
           </Link>
-        </div>
+        </motion.div>
       )}
     </div>
   );

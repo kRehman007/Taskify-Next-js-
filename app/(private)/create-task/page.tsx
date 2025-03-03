@@ -14,12 +14,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-
 import Loader from "@/components/Loader";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import AxiosInstance from "@/lib/AxiosInstance";
 import { useAuthStore } from "@/zustand/authStore";
+import { AnimatePresence, motion } from "framer-motion";
 
 const formSchma = z.object({
   title: z.string().min(1, "Title can't be empty"),
@@ -58,68 +58,76 @@ const CreateTaskPage = () => {
   }
 
   return (
-    <div className="flex max-w-lg flex-col p-5 mt-5  sm:mt-10 justify-center sm:mx-auto items-center bg-white m-2 rounded-sm">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Create New Task</h2>
-        <p className="text-gray-500">Stay organized by adding new tasks!</p>
-      </div>
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="flex max-w-lg flex-col p-5 mt-5  sm:mt-10 justify-center sm:mx-auto items-center bg-white m-2 rounded-sm"
+      >
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Create New Task</h2>
+          <p className="text-gray-500">Stay organized by adding new tasks!</p>
+        </div>
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-5 w-full"
-        >
-          {/* Title Input */}
-          <FormField
-            name="title"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-700">Title</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter task title"
-                    {...field}
-                    className="border-gray-300 focus:ring-blue-500"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Content Textarea */}
-          <FormField
-            name="content"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-700">Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    rows={4}
-                    placeholder="Enter task details"
-                    {...field}
-                    className="border-gray-300 max-h-[100px] sm:max-h-[150px] focus:ring-blue-500 resize-none overflow-y-auto"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white font-semibold py-3 rounded-lg transition-all"
-            disabled={form.formState.isSubmitting}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-5 w-full"
           >
-            {form.formState.isSubmitting ? <Loader /> : "Create Task"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+            {/* Title Input */}
+            <FormField
+              name="title"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700">Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Enter task title"
+                      {...field}
+                      className="border-gray-300 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Content Textarea */}
+            <FormField
+              name="content"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-700">Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      rows={4}
+                      placeholder="Enter task details"
+                      {...field}
+                      className="border-gray-300 max-h-[100px] sm:max-h-[150px] focus:ring-blue-500 resize-none overflow-y-auto"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full cursor-pointer bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white font-semibold py-3 rounded-lg transition-all"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? <Loader /> : "Create Task"}
+            </Button>
+          </form>
+        </Form>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

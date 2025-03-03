@@ -14,14 +14,14 @@ import toast from "react-hot-toast";
 import { FormateDate } from "@/lib/utils";
 import Link from "next/link";
 import { Trash } from "lucide-react";
-
+import { motion } from "framer-motion";
 import { DeleteTask } from "../actions/deleteAction";
 import { useAuthStore } from "@/zustand/authStore";
 import { Button } from "@/components/ui/button";
 
 // Define types for our task data
 export interface Task {
-  _id: number | string;
+  _id: number;
   title: string;
   content: string;
   createdAt: Date;
@@ -32,6 +32,7 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [IsDeleting, setIsDeleting] = useState(false);
+  const [taskId, setTaskId] = useState<number | null>(null);
   const user = useAuthStore((state) => state.user);
 
   const handleCompleteToggle = async (taskId: number) => {
@@ -62,7 +63,7 @@ export default function Home() {
         const response = await AxiosInstance.get("/get-all-tasks", {
           headers: { "user-id": user?.id },
         });
-
+        console.log("res", response);
         const formatedTasks = response?.data?.allTasks?.map((task: Task) => ({
           ...task,
           isCompleted: task.isCompleted.toString() === "true",
@@ -83,28 +84,45 @@ export default function Home() {
   }
   return (
     <div className="max-w-7xl mx-auto">
+      {/* Hero Section */}
       {tasks?.length === 0 && (
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 m-1 rounded-xl shadow-lg text-center">
+        <motion.header
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 m-1 rounded-xl shadow-lg text-center"
+        >
           <h1 className="text-3xl font-bold mb-3">
             Manage Your Tasks Efficiently 🚀
           </h1>
           <p className="text-lg">
             Stay organized and productive with your personalized task manager.
           </p>
-        </div>
+        </motion.header>
       )}
       {tasks.length > 0 && (
-        <div className="bg-gradient-to-r from-[#673AB7] via-green-400 to-[#E91E63] text-white p-6 rounded-xl shadow-lg text-center mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-r from-[#673AB7] via-pink-400 to-[#E91E63] text-white p-6 rounded-xl shadow-lg text-center mb-6"
+        >
           <h1 className="text-3xl font-bold">Your Task Overview 📋</h1>
           <p className="text-lg mt-2">
             Stay on track with your tasks! Check your progress, complete pending
             tasks, and keep moving forward.
           </p>
-        </div>
+        </motion.div>
       )}
 
+      {/* Statistics Cards */}
       {tasks?.length > 0 ? (
-        <div className="grid sm:grid-cols-4 gap-4 m-2">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="grid sm:grid-cols-4 gap-4 m-2"
+        >
           {tasks?.map((task: Task) => (
             <Card
               key={task._id}
@@ -113,7 +131,7 @@ export default function Home() {
             >
               <CardHeader className="flex flex-col gap-2 p-0">
                 <CardTitle className="flex justify-between gap-3 items-center p-0">
-                  <h3 className="text-lg font-semibold leading-tight">
+                  <h3 className="text-lg font-semibold leading-tight capitalize">
                     {task.title}
                   </h3>
                   <div
@@ -143,6 +161,7 @@ export default function Home() {
                   onClick={async () => {
                     try {
                       setIsDeleting(true);
+                      setTaskId(task._id);
                       await DeleteTask(task._id);
                       setTasks((prevTask) =>
                         prevTask.filter((t) => t._id !== task._id)
@@ -156,14 +175,23 @@ export default function Home() {
                     }
                   }}
                 >
-                  {IsDeleting ? <Loader /> : <Trash size={"20"} />}
+                  {IsDeleting && task._id === taskId ? (
+                    <Loader />
+                  ) : (
+                    <Trash size={"20"} />
+                  )}
                 </Link>
               </CardFooter>
             </Card>
           ))}
-        </div>
+        </motion.div>
       ) : (
-        <div className=" w-full flex flex-col items-center justify-center text-center p-6 mt-3 sm:mt-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className=" w-full flex flex-col items-center justify-center text-center p-6 mt-3 sm:mt-8"
+        >
           <h2 className="text-xl font-semibold text-gray-700">
             No Tasks Available
           </h2>
@@ -173,7 +201,7 @@ export default function Home() {
               Create Task{" "}
             </Button>
           </Link>
-        </div>
+        </motion.div>
       )}
     </div>
   );
