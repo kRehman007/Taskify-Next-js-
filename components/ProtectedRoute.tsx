@@ -20,16 +20,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         setUser(res?.data?.user?.user);
         setLoading(false);
       } catch (error: unknown) {
+        router.push("/login");
         if (error instanceof Error) {
           console.log(
             "error in auth-middleware",
             (error as any)?.response?.data?.error
           );
-          toast.error((error as any)?.response?.data?.error);
-          router.push("/login");
-        } else {
-          toast.error("Oops! Something went wrong.");
-          router.push("/login");
         }
       }
     }
