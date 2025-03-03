@@ -69,8 +69,13 @@ export default function Home() {
           isCompleted: task.isCompleted.toString() === "true",
         }));
         setTasks(formatedTasks as Task[]);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error fetching tasks:", error);
+          toast.error(error.message);
+        } else {
+          toast.error("Oops! Something went wrong.");
+        }
       } finally {
         setLoading(false);
       }

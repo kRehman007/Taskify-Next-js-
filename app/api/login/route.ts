@@ -56,10 +56,7 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log("error in logging-user route", error.message);
-      return NextResponse.json(
-        { error: `Internal server error ${error.message}` },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
   }
 }

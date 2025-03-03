@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log("Error in updating task:", error.message);
-      return Response.json({ error: "Internal server error" }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
   }
 }

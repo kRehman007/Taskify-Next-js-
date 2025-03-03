@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const TaskAnalyticsDashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -29,8 +30,13 @@ const TaskAnalyticsDashboard = () => {
         }));
 
         setTasks(formattedTasks as Task[]);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error fetching tasks:", error.message);
+          toast.error(error?.message);
+        } else {
+          toast.error("Oops! Something went wrong.");
+        }
       } finally {
         setLoading(false);
       }

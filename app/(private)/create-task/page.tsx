@@ -50,9 +50,10 @@ const CreateTaskPage = () => {
       toast.success("Task created successfully!");
     } catch (error: unknown) {
       if (error instanceof Error) {
+        console.error("Error in creating-task:", error.message);
         toast.error(error.message);
       } else {
-        toast.error("Oops..! Something went wrong.");
+        toast.error("Oops! Something went wrong.");
       }
     }
   }

@@ -60,6 +60,7 @@ const Signuppage = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error("Signup failed:", (error as any)?.response?.data);
+        toast.error((error as any)?.response?.data);
       } else {
         toast.error("Ooops...! Something went wrong");
       }
@@ -114,11 +115,7 @@ const Signuppage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="john@gmail.com"
-                      {...field}
-                    />
+                    <Input placeholder="john@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

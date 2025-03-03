@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password can't be empty"),
 });
 
 const LoginPage = () => {
@@ -52,6 +52,7 @@ const LoginPage = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error("Login failed:", (error as any)?.response?.data);
+        toast.error((error as any)?.response?.data);
       } else {
         toast.error("Oops! Something went wrong.");
       }
@@ -79,11 +80,7 @@ const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="john@gmail.com"
-                      {...field}
-                    />
+                    <Input placeholder="john@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
