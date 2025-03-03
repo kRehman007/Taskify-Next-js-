@@ -1,8 +1,10 @@
 import taskModel from "@/app/models/task-model";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { id } = await req.json();
+  const { id: Id } = await req.json();
+  const id = new mongoose.Types.ObjectId(Id);
   try {
     const existingTask = await taskModel.findById(id);
     if (!existingTask) {

@@ -139,7 +139,7 @@ const TaskAnalyticsDashboard = () => {
           <Link href="/create-task">
             <Button
               size="lg"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 shadow-lg transition-all"
+              className="bg-green-600 hover:bg-green-700 cursor-pointer text-white px-6 py-3 shadow-lg transition-all"
             >
               Create Task
             </Button>

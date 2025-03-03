@@ -60,8 +60,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen  bg-gray-200  px-4">
-      <div className="max-w-md w-full bg-white text-black shadow-xl rounded-lg p-8">
+    <div className="flex justify-center mt-24 min-h-screen  bg-gray-200  px-4">
+      <div className="max-w-md w-full h-[max-content] bg-white text-black shadow-xl rounded-lg p-8">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
           <p className="text-gray-600">Login to your account</p>

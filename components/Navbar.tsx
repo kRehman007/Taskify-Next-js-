@@ -16,16 +16,16 @@ const Navbar = () => {
   async function handleLogout() {
     try {
       const response = await LogoutUser();
+      console.log("response", response);
       if (response?.error) {
         throw new Error(response.error);
       }
+      router.push("/login");
       localStorage.removeItem("token");
       clearUser();
-      router.push("/login");
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("error in logout", error.message);
-        toast.error(error.message);
       } else {
         toast.error("Oops..! Something went wrong");
       }

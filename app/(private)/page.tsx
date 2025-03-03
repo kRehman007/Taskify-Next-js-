@@ -80,7 +80,7 @@ export default function Home() {
             "Error fetching tasks:",
             (error as any)?.response?.data?.error
           );
-          toast.error((error as any)?.response?.data?.error);
+          // toast.error((error as any)?.response?.data?.error);
         } else {
           toast.error("Oops! Something went wrong.");
         }
@@ -174,6 +174,7 @@ export default function Home() {
                       setIsDeleting(true);
                       setTaskId(task._id);
                       const response = await DeleteTask(task._id);
+                      console.log("deleted-response", response);
                       if (response.error) {
                         throw new Error(response.error);
                       }
@@ -215,7 +216,7 @@ export default function Home() {
           </h2>
           <p className="text-gray-500">Start adding tasks to stay organized!</p>
           <Link href={"/create-task"}>
-            <Button className="bg-green-600 mt-3 sm:mt-4 px-12 text-sm">
+            <Button className="bg-green-600 hover:bg-green-700 cursor-pointer mt-3 sm:mt-4 px-12 text-sm">
               Create Task{" "}
             </Button>
           </Link>
