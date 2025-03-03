@@ -1,10 +1,12 @@
 "use server";
 import mongoose from "mongoose";
 import taskModel from "../models/task-model";
+import { MongoDBConnection } from "@/lib/db";
 
 export async function DeleteTask(id: number) {
-  const Id = new mongoose.Types.ObjectId(id);
   try {
+    await MongoDBConnection();
+    const Id = new mongoose.Types.ObjectId(id);
     const deletedTask = await taskModel.findOneAndDelete({ _id: Id });
     if (!deletedTask) {
       return { error: "Please try again later", status: 401 }; // Return as an object

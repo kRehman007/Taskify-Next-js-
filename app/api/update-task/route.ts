@@ -1,11 +1,13 @@
 import taskModel from "@/app/models/task-model";
+import { MongoDBConnection } from "@/lib/db";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { id: Id } = await req.json();
-  const id = new mongoose.Types.ObjectId(Id);
   try {
+    await MongoDBConnection();
+    const id = new mongoose.Types.ObjectId(Id);
     const existingTask = await taskModel.findById(id);
     if (!existingTask) {
       return NextResponse.json(
