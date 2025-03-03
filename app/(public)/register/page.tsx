@@ -59,8 +59,8 @@ const Signuppage = () => {
       router.push("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error("Signup failed:", (error as any)?.response?.data);
-        toast.error((error as any)?.response?.data);
+        console.error("Signup failed:", (error as any)?.response?.data?.error);
+        toast.error((error as any)?.response?.data?.error);
       } else {
         toast.error("Ooops...! Something went wrong");
       }

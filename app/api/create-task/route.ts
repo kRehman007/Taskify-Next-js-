@@ -12,7 +12,12 @@ export async function POST(req: Request) {
 
   try {
     const userId = req.headers.get("user-id");
-
+    if (!userId) {
+      return NextResponse.json(
+        { error: "unAuthorized, Login first" },
+        { status: 404 }
+      );
+    }
     const createdTask = await taskModel.create({
       title,
       content,
@@ -23,7 +28,10 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log("error in creating-task action", error.message);
-      return NextResponse.json({ error: error.message }, { status: 401 });
+      return NextResponse.json(
+        { error: "Oops! Something went wrong." },
+        { status: 500 }
+      );
     }
   }
 }

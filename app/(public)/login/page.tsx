@@ -51,8 +51,8 @@ const LoginPage = () => {
       toast.success("Successfully logged in");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error("Login failed:", (error as any)?.response?.data);
-        toast.error((error as any)?.response?.data);
+        console.error("Login failed:", (error as any)?.response?.data?.error);
+        toast.error((error as any)?.response?.data?.error);
       } else {
         toast.error("Oops! Something went wrong.");
       }

@@ -4,6 +4,7 @@ import { useAuthStore } from "@/zustand/authStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PageLoader } from "./Loader";
+import toast from "react-hot-toast";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { setUser } = useAuthStore();
@@ -20,9 +21,16 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.log(error.message);
+          console.log(
+            "error in auth-middleware",
+            (error as any)?.response?.data?.error
+          );
+          toast.error((error as any)?.response?.data?.error);
+          router.push("/login");
+        } else {
+          toast.error("Oops! Something went wrong.");
+          router.push("/login");
         }
-        router.push("/login");
       }
     }
 

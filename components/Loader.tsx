@@ -14,7 +14,7 @@ export default Loader;
 export const PageLoader = () => {
   return (
     <div className="w-full h-screen flex items-center justify-center">
-      <Loader2 className="animate-spin " />
+      <Loader2 className="animate-spin -mt-5" />
     </div>
   );
 };

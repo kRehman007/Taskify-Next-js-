@@ -14,13 +14,14 @@ const Navbar = () => {
   const clearUser = useAuthStore((state) => state.clearUser);
 
   async function handleLogout() {
-    localStorage.removeItem("token");
-    clearUser();
     try {
       await LogoutUser();
+      localStorage.removeItem("token");
+      clearUser();
       router.push("/login");
     } catch (error: unknown) {
       if (error instanceof Error) {
+        console.log("error in logout", error.message);
         toast.error(error.message);
       } else {
         toast.error("Oops..! Something went wrong");

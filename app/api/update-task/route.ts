@@ -6,7 +6,10 @@ export async function POST(req: Request) {
   try {
     const existingTask = await taskModel.findById(id);
     if (!existingTask) {
-      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "please try again later " },
+        { status: 404 }
+      );
     }
     const updatedTask = await taskModel.findOneAndUpdate(
       { _id: id },
@@ -18,7 +21,7 @@ export async function POST(req: Request) {
     if (!updatedTask) {
       console.log("Failed to update task for ID:", id);
       return NextResponse.json(
-        { error: "Task update failed" },
+        { error: "please try again later " },
         { status: 500 }
       );
     }

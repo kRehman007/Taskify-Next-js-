@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import { DeleteTask } from "../actions/deleteAction";
 import { useAuthStore } from "@/zustand/authStore";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 // Define types for our task data
 export interface Task {
@@ -34,18 +35,11 @@ export default function Home() {
   const [IsDeleting, setIsDeleting] = useState(false);
   const [taskId, setTaskId] = useState<number | null>(null);
   const user = useAuthStore((state) => state.user);
+  const router = useRouter();
 
   const handleCompleteToggle = async (taskId: number) => {
     try {
-      setTasks(
-        tasks?.map((task: Task) =>
-          task._id === taskId
-            ? { ...task, isCompleted: !task.isCompleted }
-            : task
-        )
-      );
       await AxiosInstance.post("/update-task", { id: taskId });
-    } catch (error) {
       setTasks(
         tasks?.map((task: Task) =>
           task._id === taskId
@@ -53,7 +47,16 @@ export default function Home() {
             : task
         )
       );
-      toast.error("Can't update status for now");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(
+          "Can't update status for now",
+          (error as any)?.response?.data?.error
+        );
+        toast.error((error as any)?.response?.data?.error);
+      } else {
+        toast.error("Oops! Something went wrong.");
+      }
     }
   };
 
@@ -63,21 +66,24 @@ export default function Home() {
         const response = await AxiosInstance.get("/get-all-tasks", {
           headers: { "user-id": user?.id },
         });
-        console.log("res", response);
+
         const formatedTasks = response?.data?.allTasks?.map((task: Task) => ({
           ...task,
           isCompleted: task.isCompleted.toString() === "true",
         }));
         setTasks(formatedTasks as Task[]);
+        setLoading(false);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error("Error fetching tasks:", error);
-          toast.error(error.message);
+          router.push("/login");
+          console.error(
+            "Error fetching tasks:",
+            (error as any)?.response?.data?.error
+          );
+          toast.error((error as any)?.response?.data?.error);
         } else {
           toast.error("Oops! Something went wrong.");
         }
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -172,9 +178,13 @@ export default function Home() {
                         prevTask.filter((t) => t._id !== task._id)
                       );
                       toast.success("task deleted successfully");
-                    } catch (error) {
-                      setIsDeleting(false);
-                      console.log("can't delete task for now");
+                    } catch (error: unknown) {
+                      if (error instanceof Error) {
+                        console.log("can't delete task for now", error.message);
+                        toast.error(error.message);
+                      } else {
+                        toast.error("Oops! Something went wrong.");
+                      }
                     } finally {
                       setIsDeleting(false);
                     }

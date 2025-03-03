@@ -10,11 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const TaskAnalyticsDashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const user = useAuthStore((state) => state.user);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -30,15 +32,18 @@ const TaskAnalyticsDashboard = () => {
         }));
 
         setTasks(formattedTasks as Task[]);
+        setLoading(false);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error("Error fetching tasks:", error.message);
-          toast.error(error?.message);
+          router.push("/login");
+          console.error(
+            "Error in fetching tasks:",
+            (error as any)?.response?.data?.error
+          );
+          toast.error((error as any)?.response?.data?.error);
         } else {
           toast.error("Oops! Something went wrong.");
         }
-      } finally {
-        setLoading(false);
       }
     };
 

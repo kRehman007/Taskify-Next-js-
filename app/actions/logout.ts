@@ -8,6 +8,6 @@ export async function LogoutUser() {
     cookieStore.delete("token");
   } catch (error) {
     console.log("error in loguting", error);
-    throw new Error("logout failed, please try again");
+    throw new Error("logout failed, please try again later");
   }
 }
