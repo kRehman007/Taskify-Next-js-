@@ -68,8 +68,8 @@ const Signuppage = () => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-gray-200 px-5 sm:p-0 pt-10 sm:pt-20">
-      <div className="max-w-xl sm:mx-auto     text-black p-5 shadow-sm bg-white  rounded-sm  ">
+    <div className="flex justify-center min-h-screen items-center bg-gray-200 px-6">
+      <div className="max-w-md w-full  sm:mx-auto    text-black bg-gray-200  shadow-sm   rounded-sm  p-8">
         <div className="flex flex-col items-center ">
           <span className="text-2xl font-bold">Create New Account</span>
           <small>Keep your data safe!</small>
@@ -137,14 +137,14 @@ const Signuppage = () => {
             />
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition"
+              className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition"
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? <Loader /> : "Create"}
             </Button>
           </form>
         </Form>
-        <div className="text-center mt-3">
+        <div className="text-center mt-4 text-gray-700">
           Already have an account?{" "}
           <Link href={"/login"} className="text-blue-600 hover:underline">
             Login

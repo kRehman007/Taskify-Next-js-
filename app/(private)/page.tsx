@@ -80,7 +80,6 @@ export default function Home() {
             "Error fetching tasks:",
             (error as any)?.response?.data?.error
           );
-          // toast.error((error as any)?.response?.data?.error);
         } else {
           toast.error("Oops! Something went wrong.");
         }
