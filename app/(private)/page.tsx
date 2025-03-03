@@ -173,7 +173,10 @@ export default function Home() {
                     try {
                       setIsDeleting(true);
                       setTaskId(task._id);
-                      await DeleteTask(task._id);
+                      const response = await DeleteTask(task._id);
+                      if (response.error) {
+                        throw new Error(response.error);
+                      }
                       setTasks((prevTask) =>
                         prevTask.filter((t) => t._id !== task._id)
                       );

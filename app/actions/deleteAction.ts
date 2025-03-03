@@ -6,14 +6,12 @@ export async function DeleteTask(id: number) {
     // const deletedTask = await taskModel.findOneAndDelete({ _id: id });
     let deletedTask = null;
     if (!deletedTask) {
-      throw new Error("Please try again later"); // ✅ Return plain object
+      return { error: "Please try again later", status: 401 }; // Return as an object
     }
 
-    return { message: "Task deleted successfully", status: 200 }; // ✅ Return plain object
+    return { message: "Task deleted successfully", status: 200 };
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.log("Error in deleting task:", error.message);
-      throw new Error("Please try again later");
-    }
+    console.log("Error in deleting task:", (error as Error).message);
+    return { error: "Please try again later", status: 500 };
   }
 }

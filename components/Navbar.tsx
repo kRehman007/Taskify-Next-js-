@@ -15,7 +15,10 @@ const Navbar = () => {
 
   async function handleLogout() {
     try {
-      await LogoutUser();
+      const response = await LogoutUser();
+      if (response?.error) {
+        throw new Error(response.error);
+      }
       localStorage.removeItem("token");
       clearUser();
       router.push("/login");
