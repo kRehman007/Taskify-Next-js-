@@ -69,7 +69,7 @@ const Signuppage = () => {
 
   return (
     <div className="flex justify-center min-h-screen items-center bg-gray-200 px-6">
-      <div className="max-w-md w-full  sm:mx-auto    text-black bg-gray-200  shadow-sm   rounded-sm  p-8">
+      <div className="max-w-md w-full  sm:mx-auto    text-black bg-white  shadow-sm   rounded-sm  p-8">
         <div className="flex flex-col items-center ">
           <span className="text-2xl font-bold">Create New Account</span>
           <small>Keep your data safe!</small>
