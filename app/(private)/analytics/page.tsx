@@ -131,7 +131,7 @@ const TaskAnalyticsDashboard = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            No Tasks Available 📝
+            No Task Available 📝
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mb-6">
             Start adding tasks to stay organized!

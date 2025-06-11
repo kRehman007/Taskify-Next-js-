@@ -6,7 +6,7 @@ import { LogoutUser } from "@/app/actions/logout";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { LogOut, PlusCircle, BarChart } from "lucide-react";
-import TaskifyLogo from "@/public/Takify.webp";
+ import TaskifyLogo from "@/public/Taskify.webp"
 import Image from "next/image";
 
 const Navbar = () => {
@@ -16,7 +16,6 @@ const Navbar = () => {
   async function handleLogout() {
     try {
       const response = await LogoutUser();
-      console.log("response", response);
       if (response?.error) {
         throw new Error(response.error);
       }

@@ -173,7 +173,7 @@ export default function Home() {
                       setIsDeleting(true);
                       setTaskId(task._id);
                       const response = await DeleteTask(task._id);
-                      console.log("deleted-response", response);
+
                       if (response.error) {
                         throw new Error(response.error);
                       }
